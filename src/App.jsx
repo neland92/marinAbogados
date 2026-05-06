@@ -293,6 +293,13 @@ export default function App() {
             <div style={{width: 36, height: 36, borderRadius: '50%', backgroundColor: 'var(--accent-color)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'}}>
               {role.charAt(0)}
             </div>
+            <button 
+              className="btn-secondary" 
+              style={{padding: '0.4rem 0.75rem', fontSize: '0.8rem', marginLeft: '0.5rem'}}
+              onClick={() => { setIsLoggedIn(false); setLoginPassword(''); }}
+            >
+              Cerrar Sesión
+            </button>
           </div>
         </header>
 
