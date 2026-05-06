@@ -39,7 +39,10 @@ const MOCK_TICKETS = [
 const ROLES = ['Cliente', 'Abogada Líder', 'Abogada Asignada', 'Abogado Jefe'];
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('Abogada Líder');
+  const [loginPassword, setLoginPassword] = useState('');
+  
   const [currentView, setCurrentView] = useState('dashboard'); // dashboard, ticketDetail
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [chatInput, setChatInput] = useState('');
@@ -53,6 +56,14 @@ export default function App() {
       case 'review': return { text: 'Para Revisión', cls: 'status-review' };
       case 'done': return { text: 'Completado', cls: 'status-done' };
       default: return { text: 'Desconocido', cls: '' };
+    }
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Simulamos validación
+    if(loginPassword.trim() !== '') {
+      setIsLoggedIn(true);
     }
   };
 
@@ -79,6 +90,46 @@ export default function App() {
     setSelectedTicket(updatedTickets.find(t => t.id === selectedTicket.id));
     setChatInput('');
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="login-wrapper">
+        <div className="login-card">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginBottom: '1rem'}}>
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <h1 style={{margin: '0 0 0.5rem 0', color: 'var(--primary-color)'}}>FirmaLegal Pro</h1>
+          <p style={{margin: 0, color: 'var(--text-muted)'}}>Inicia sesión en tu cuenta</p>
+          
+          <form onSubmit={handleLogin}>
+            <div className="login-input-group">
+              <label>Simular acceso como:</label>
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+            
+            <div className="login-input-group">
+              <label>Contraseña de prueba:</label>
+              <input 
+                type="password" 
+                placeholder="Escribe cualquier cosa..." 
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                required
+              />
+            </div>
+            
+            <button type="submit" className="btn-primary login-btn">
+              Ingresar al Panel
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
