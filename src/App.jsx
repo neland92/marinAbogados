@@ -285,7 +285,7 @@ export default function App() {
       {/* MAIN CONTENT */}
       <main className="main-content">
         <header className="topbar">
-          <div className="search-bar" style={{color: 'var(--text-muted)'}}>
+          <div className="search-bar" style={{color: '#a3a3a3'}}>
             Gestión Centralizada - {role}
           </div>
           <div className="user-info">

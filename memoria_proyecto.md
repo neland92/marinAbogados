@@ -38,6 +38,7 @@ El proyecto actualmente se estructura como una **Single Page Application (SPA)**
 - [x] **Actualización de Branding:** Cambio del nombre genérico a "Marin & Abogados" en toda la interfaz y ajustes de textos en la pantalla de Login.
 - [x] **Mejora UI:** Rediseño de la tabla en el Dashboard para mostrar columnas separadas con los conteos exactos de tickets (Pendientes, En Proceso, En Revisión, y Enviados). Se actualizó el color del estado "Pendiente" a rojo para mayor resaltado visual. Se agregó un enlace exclusivo de "Informes" en el menú para el Abogado Jefe. Se añadió un botón de "Cerrar Sesión" en la barra superior.
 - [x] **Datos Simulados y Panel de Tickets:** Actualización de logos (uso de imagen real), adición de tickets de prueba (COMP-01 y COMP-03), adición de 2 tickets adicionales "Enviados" a Distribuidora del Norte, y reemplazo de botones de estado por un menú desplegable (Combo Box) con nuevos estados ("En Proceso", "Enviado"). Se incluyó un botón de "Adjuntar" en el hilo de chat exclusivo para los roles de abogados.
+- [x] **Rediseño Estético General:** Migración de la paleta de colores a Blanco, Negro y Rojo (Corporativo). La barra superior (topbar) es ahora negra para mayor contraste, los botones tienen bordes más definidos (menos redondeados) y el fondo es de un gris/blanco sutil, dándole un look moderno, minimalista y elegante.
 
 ## 4. Problemas Conocidos y Tareas Pendientes
 
