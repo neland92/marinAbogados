@@ -464,6 +464,17 @@ export default function App() {
                     ))}
                   </div>
                   <form className="chat-input" onSubmit={handleSendMessage}>
+                    {role !== 'Cliente' && (
+                      <button 
+                        type="button" 
+                        className="btn-secondary" 
+                        title="Subir documento como respuesta" 
+                        onClick={() => alert("Función de subida de archivos en desarrollo...")} 
+                        style={{padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.25rem'}}
+                      >
+                        📎 Adjuntar
+                      </button>
+                    )}
                     <input 
                       type="text" 
                       placeholder="Escribe un mensaje..." 

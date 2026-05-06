@@ -273,7 +273,7 @@ body {
   color: var(--text-main);
 }
 
-.status-pending { background: #fef3c7; color: #d97706; }
+.status-pending { background: #fee2e2; color: #dc2626; }
 .status-progress { background: #dbeafe; color: #2563eb; }
 .status-review { background: #ede9fe; color: #7c3aed; }
 .status-done { background: #d1fae5; color: #059669; }
