@@ -179,22 +179,22 @@ export default function App() {
             <path d="M2 17l10 5 10-5"></path>
             <path d="M2 12l10 5 10-5"></path>
           </svg>
-          <h1 style={{margin: '0 0 0.5rem 0', color: 'var(--primary-color)'}}>FirmaLegal Pro</h1>
+          <h1 style={{margin: '0 0 0.5rem 0', color: 'var(--primary-color)'}}>Marin & Abogados</h1>
           <p style={{margin: 0, color: 'var(--text-muted)'}}>Inicia sesión en tu cuenta</p>
           
           <form onSubmit={handleLogin}>
             <div className="login-input-group">
-              <label>Simular acceso como:</label>
+              <label>Usuario:</label>
               <select value={role} onChange={(e) => setRole(e.target.value)}>
                 {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
               </select>
             </div>
             
             <div className="login-input-group">
-              <label>Contraseña de prueba:</label>
+              <label>Contraseña:</label>
               <input 
                 type="password" 
-                placeholder="Escribe cualquier cosa..." 
+                placeholder="..." 
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 required
@@ -220,7 +220,7 @@ export default function App() {
             <path d="M2 17l10 5 10-5"></path>
             <path d="M2 12l10 5 10-5"></path>
           </svg>
-          FirmaLegal Pro
+          Marin & Abogados
         </div>
         
         <div className={`nav-link ${currentView === 'dashboard' ? 'active' : ''}`} onClick={() => setCurrentView('dashboard')}>
