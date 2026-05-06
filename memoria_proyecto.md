@@ -36,6 +36,7 @@ El proyecto actualmente se estructura como una **Single Page Application (SPA)**
 - [x] **Historial de Auditoría:** Registro automático de acciones dentro del ticket.
 - [x] **Despliegue Automático:** Configuración de GitHub Actions superando el problema de dependencias en Google Drive (generación manual del `package-lock.json`).
 - [x] **Actualización de Branding:** Cambio del nombre genérico a "Marin & Abogados" en toda la interfaz y ajustes de textos en la pantalla de Login.
+- [x] **Mejora UI:** Rediseño de la tabla en el Dashboard para mostrar columnas separadas con los conteos exactos de tickets (Pendientes, En Proceso, En Revisión).
 
 ## 4. Problemas Conocidos y Tareas Pendientes
 

@@ -277,8 +277,10 @@ export default function App() {
                   <thead>
                     <tr>
                       <th>Empresa Cliente</th>
-                      <th>Tickets Totales</th>
-                      <th>Estado de Tickets</th>
+                      <th style={{textAlign: 'center'}}>Tickets Totales</th>
+                      <th style={{textAlign: 'center'}}>Pendientes</th>
+                      <th style={{textAlign: 'center'}}>En Proceso</th>
+                      <th style={{textAlign: 'center'}}>En Revisión</th>
                       <th>Acción</th>
                     </tr>
                   </thead>
@@ -300,13 +302,15 @@ export default function App() {
                               {company.name}
                             </div>
                           </td>
-                          <td>{company.tickets.length} tickets</td>
-                          <td>
-                            <div className="ticket-counts">
-                              {pendingCount > 0 && <span className="count-badge status-pending">{pendingCount} Pendiente</span>}
-                              {progressCount > 0 && <span className="count-badge status-progress">{progressCount} En Progreso</span>}
-                              {reviewCount > 0 && <span className="count-badge status-review">{reviewCount} Revisión</span>}
-                            </div>
+                          <td style={{textAlign: 'center'}}>{company.tickets.length}</td>
+                          <td style={{textAlign: 'center'}}>
+                            {pendingCount > 0 ? <span className="count-badge status-pending">{pendingCount}</span> : <span style={{color: 'var(--text-muted)'}}>0</span>}
+                          </td>
+                          <td style={{textAlign: 'center'}}>
+                            {progressCount > 0 ? <span className="count-badge status-progress">{progressCount}</span> : <span style={{color: 'var(--text-muted)'}}>0</span>}
+                          </td>
+                          <td style={{textAlign: 'center'}}>
+                            {reviewCount > 0 ? <span className="count-badge status-review">{reviewCount}</span> : <span style={{color: 'var(--text-muted)'}}>0</span>}
                           </td>
                           <td>
                             <button className="btn-secondary" style={{padding: '0.25rem 0.75rem', fontSize: '0.75rem'}}>Ver Detalle →</button>
