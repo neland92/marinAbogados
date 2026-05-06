@@ -264,6 +264,11 @@ export default function App() {
         <div className="nav-link">
           Documentos Plantilla
         </div>
+        {role === 'Abogado Jefe' && (
+          <div className={`nav-link ${currentView === 'reports' ? 'active' : ''}`} onClick={() => setCurrentView('reports')}>
+            Informes
+          </div>
+        )}
         
         <div style={{marginTop: 'auto', borderTop: '1px solid var(--border-color)', paddingTop: '1rem'}}>
           <p style={{fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem'}}>Simular Rol:</p>
@@ -362,6 +367,14 @@ export default function App() {
                 </table>
               </div>
             </>
+          )}
+
+          {/* VISTA DE INFORMES */}
+          {currentView === 'reports' && (
+            <div style={{ textAlign: 'center', marginTop: '4rem', color: 'var(--text-muted)' }}>
+              <h2>Módulo de Informes</h2>
+              <p>Esta sección está en construcción. Aquí se mostrarán las estadísticas de gestión y tiempos de respuesta de la firma.</p>
+            </div>
           )}
 
           {/* VISTA 2: DETALLE DE EMPRESA (LISTA DE TICKETS) */}
