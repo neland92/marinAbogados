@@ -16,6 +16,39 @@ const MOCK_COMPANIES = [
         messages: [
           { sender: 'Cliente', text: 'Hola, necesito hacer un despido para mañana. Adjunto soportes.', type: 'received' }
         ]
+      },
+      {
+        id: 'TKT-005',
+        title: 'Revisión de Contrato a Término Fijo',
+        status: 'progress',
+        date: '2026-05-06',
+        history: [
+          { user: 'Cliente', time: '06-May 08:00 AM', action: 'Ticket creado' },
+          { user: 'Abogada Asignada', time: '06-May 09:00 AM', action: 'Estado cambiado a En Progreso' }
+        ],
+        messages: []
+      },
+      {
+        id: 'TKT-007',
+        title: 'Elaboración de poder especial',
+        status: 'done',
+        date: '2026-05-01',
+        history: [
+          { user: 'Cliente', time: '01-May 10:00 AM', action: 'Ticket creado' },
+          { user: 'Abogada Asignada', time: '02-May 03:00 PM', action: 'Cambió a Enviado' }
+        ],
+        messages: []
+      },
+      {
+        id: 'TKT-008',
+        title: 'Concepto jurídico sobre horas extras',
+        status: 'done',
+        date: '2026-04-25',
+        history: [
+          { user: 'Cliente', time: '25-Apr 09:00 AM', action: 'Ticket creado' },
+          { user: 'Abogado Jefe', time: '28-Apr 11:00 AM', action: 'Cambió a Enviado' }
+        ],
+        messages: []
       }
     ]
   },
@@ -66,6 +99,16 @@ const MOCK_COMPANIES = [
           { user: 'Abogado Jefe', time: '30-Apr 02:00 PM', action: 'Aprobado y Finalizado' }
         ],
         messages: []
+      },
+      {
+        id: 'TKT-006',
+        title: 'Asesoría en compra de lote',
+        status: 'pending',
+        date: '2026-05-06',
+        history: [
+          { user: 'Cliente', time: '06-May 10:00 AM', action: 'Ticket creado' }
+        ],
+        messages: []
       }
     ]
   }
@@ -88,9 +131,9 @@ export default function App() {
   const getStatusInfo = (status) => {
     switch(status) {
       case 'pending': return { text: 'Pendiente', cls: 'status-pending' };
-      case 'progress': return { text: 'En Progreso', cls: 'status-progress' };
-      case 'review': return { text: 'Para Revisión', cls: 'status-review' };
-      case 'done': return { text: 'Completado', cls: 'status-done' };
+      case 'progress': return { text: 'En Proceso', cls: 'status-progress' };
+      case 'review': return { text: 'En Revisión', cls: 'status-review' };
+      case 'done': return { text: 'Enviado', cls: 'status-done' };
       default: return { text: 'Desconocido', cls: '' };
     }
   };
@@ -174,11 +217,7 @@ export default function App() {
     return (
       <div className="login-wrapper">
         <div className="login-card">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginBottom: '1rem'}}>
-            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            <path d="M2 17l10 5 10-5"></path>
-            <path d="M2 12l10 5 10-5"></path>
-          </svg>
+          <img src="/logo.jpg" alt="Marin & Abogados Logo" style={{ maxHeight: '80px', marginBottom: '1rem', objectFit: 'contain' }} />
           <h1 style={{margin: '0 0 0.5rem 0', color: 'var(--primary-color)'}}>Marin & Abogados</h1>
           <p style={{margin: 0, color: 'var(--text-muted)'}}>Inicia sesión en tu cuenta</p>
           
@@ -215,11 +254,7 @@ export default function App() {
       {/* SIDEBAR */}
       <aside className="sidebar">
         <div className="sidebar-title">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            <path d="M2 17l10 5 10-5"></path>
-            <path d="M2 12l10 5 10-5"></path>
-          </svg>
+          <img src="/logo.jpg" alt="Marin & Abogados Logo" style={{ maxHeight: '32px', objectFit: 'contain' }} />
           Marin & Abogados
         </div>
         
@@ -281,6 +316,7 @@ export default function App() {
                       <th style={{textAlign: 'center'}}>Pendientes</th>
                       <th style={{textAlign: 'center'}}>En Proceso</th>
                       <th style={{textAlign: 'center'}}>En Revisión</th>
+                      <th style={{textAlign: 'center'}}>Enviados</th>
                       <th>Acción</th>
                     </tr>
                   </thead>
@@ -290,6 +326,7 @@ export default function App() {
                       const pendingCount = company.tickets.filter(t => t.status === 'pending').length;
                       const progressCount = company.tickets.filter(t => t.status === 'progress').length;
                       const reviewCount = company.tickets.filter(t => t.status === 'review').length;
+                      const doneCount = company.tickets.filter(t => t.status === 'done').length;
 
                       // Si es cliente, solo ve su empresa (simulación simple)
                       if (role === 'Cliente' && company.id !== 'COMP-01') return null;
@@ -311,6 +348,9 @@ export default function App() {
                           </td>
                           <td style={{textAlign: 'center'}}>
                             {reviewCount > 0 ? <span className="count-badge status-review">{reviewCount}</span> : <span style={{color: 'var(--text-muted)'}}>0</span>}
+                          </td>
+                          <td style={{textAlign: 'center'}}>
+                            {doneCount > 0 ? <span className="count-badge status-done">{doneCount}</span> : <span style={{color: 'var(--text-muted)'}}>0</span>}
                           </td>
                           <td>
                             <button className="btn-secondary" style={{padding: '0.25rem 0.75rem', fontSize: '0.75rem'}}>Ver Detalle →</button>
@@ -383,22 +423,27 @@ export default function App() {
                   <h1 style={{margin: 0, fontSize: '1.5rem'}}>{selectedTicket.title}</h1>
                   <p style={{margin: '0.25rem 0 0', color: 'var(--text-muted)'}}>{selectedCompany.name} | Ref: {selectedTicket.id}</p>
                 </div>
-                <div style={{display: 'flex', gap: '1rem'}}>
-                  {selectedTicket.status === 'pending' && role.includes('Abogada') && (
-                    <button className="btn-primary" onClick={() => handleChangeStatus('progress', 'Tomó el caso (En Progreso)')}>
-                      Tomar Caso (Quitar Alerta)
-                    </button>
-                  )}
-                  {selectedTicket.status === 'progress' && role.includes('Abogada') && (
-                    <button className="btn-primary" style={{background: '#7c3aed'}} onClick={() => handleChangeStatus('review', 'Envió a Revisión')}>
-                      Enviar a Revisión Jefe
-                    </button>
-                  )}
-                  {selectedTicket.status === 'review' && role === 'Abogado Jefe' && (
-                    <button className="btn-primary" style={{background: '#10b981'}} onClick={() => handleChangeStatus('done', 'Aprobó y Finalizó el ticket')}>
-                      Aprobar y Entregar
-                    </button>
-                  )}
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                  <label style={{fontWeight: '500'}}>Cambiar Estado:</label>
+                  <select 
+                    value={selectedTicket.status}
+                    onChange={(e) => {
+                      const newStatus = e.target.value;
+                      let actionText = '';
+                      if (newStatus === 'pending') actionText = 'Cambió a Pendiente';
+                      if (newStatus === 'progress') actionText = 'Cambió a En Proceso';
+                      if (newStatus === 'review') actionText = 'Cambió a En Revisión';
+                      if (newStatus === 'done') actionText = 'Cambió a Enviado';
+                      handleChangeStatus(newStatus, actionText);
+                    }}
+                    style={{padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid var(--border-color)', fontWeight: 'bold'}}
+                    className={`count-badge status-${selectedTicket.status}`}
+                  >
+                    <option value="pending">Pendiente</option>
+                    <option value="progress">En Proceso</option>
+                    <option value="review">En Revisión</option>
+                    <option value="done">Enviado</option>
+                  </select>
                 </div>
               </div>
 
