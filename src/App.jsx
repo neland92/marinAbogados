@@ -47,10 +47,10 @@ const MOCK_COMPANIES = [
         title: 'Concepto jurídico sobre horas extras',
         status: 'done',
         date: '2026-04-25',
-        assignedTo: 'Abogado Jefe',
+        assignedTo: 'Steven Marin',
         history: [
           { user: 'Cliente', time: '25-Apr 09:00 AM', action: 'Ticket creado' },
-          { user: 'Abogado Jefe', time: '28-Apr 11:00 AM', action: 'Cambió a Enviado' }
+          { user: 'Steven Marin', time: '28-Apr 11:00 AM', action: 'Cambió a Enviado' }
         ],
         messages: []
       }
@@ -100,10 +100,10 @@ const MOCK_COMPANIES = [
         title: 'Contrato de Arrendamiento Local 5',
         status: 'done',
         date: '2026-04-28',
-        assignedTo: 'Abogado Jefe',
+        assignedTo: 'Steven Marin',
         history: [
           { user: 'Cliente', time: '28-Apr 10:00 AM', action: 'Ticket creado' },
-          { user: 'Abogado Jefe', time: '30-Apr 02:00 PM', action: 'Aprobado y Finalizado' }
+          { user: 'Steven Marin', time: '30-Apr 02:00 PM', action: 'Aprobado y Finalizado' }
         ],
         messages: []
       },
@@ -122,7 +122,7 @@ const MOCK_COMPANIES = [
   }
 ];
 
-const ROLES = ['Cliente', 'Abogada Líder', 'Abogada Asignada', 'Abogado Jefe'];
+const ROLES = ['Cliente', 'Abogada Líder', 'Abogada Asignada', 'Steven Marin'];
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -301,7 +301,7 @@ export default function App() {
         <div className="nav-link">
           Documentos Plantilla
         </div>
-        {role === 'Abogado Jefe' && (
+        {role === 'Steven Marin' && (
           <div className={`nav-link ${currentView === 'reports' ? 'active' : ''}`} onClick={() => setCurrentView('reports')}>
             Informes
           </div>
@@ -482,28 +482,30 @@ export default function App() {
                   <h1 style={{margin: 0, fontSize: '1.5rem'}}>{selectedTicket.title}</h1>
                   <p style={{margin: '0.25rem 0 0', color: 'var(--text-muted)'}}>{selectedCompany.name} | Ref: {selectedTicket.id}</p>
                 </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                  <label style={{fontWeight: '500'}}>Cambiar Estado:</label>
-                  <select 
-                    value={selectedTicket.status}
-                    onChange={(e) => {
-                      const newStatus = e.target.value;
-                      let actionText = '';
-                      if (newStatus === 'pending') actionText = 'Cambió a Pendiente';
-                      if (newStatus === 'progress') actionText = 'Cambió a En Proceso';
-                      if (newStatus === 'review') actionText = 'Cambió a En Revisión';
-                      if (newStatus === 'done') actionText = 'Cambió a Enviado';
-                      handleChangeStatus(newStatus, actionText);
-                    }}
-                    style={{padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid var(--border-color)', fontWeight: 'bold'}}
-                    className={`count-badge status-${selectedTicket.status}`}
-                  >
-                    <option value="pending">Pendiente</option>
-                    <option value="progress">En Proceso</option>
-                    <option value="review">En Revisión</option>
-                    <option value="done">Enviado</option>
-                  </select>
-                </div>
+                {role !== 'Cliente' && (
+                  <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                    <label style={{fontWeight: '500'}}>Cambiar Estado:</label>
+                    <select 
+                      value={selectedTicket.status}
+                      onChange={(e) => {
+                        const newStatus = e.target.value;
+                        let actionText = '';
+                        if (newStatus === 'pending') actionText = 'Cambió a Pendiente';
+                        if (newStatus === 'progress') actionText = 'Cambió a En Proceso';
+                        if (newStatus === 'review') actionText = 'Cambió a En Revisión';
+                        if (newStatus === 'done') actionText = 'Cambió a Enviado';
+                        handleChangeStatus(newStatus, actionText);
+                      }}
+                      style={{padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid var(--border-color)', fontWeight: 'bold'}}
+                      className={`count-badge status-${selectedTicket.status}`}
+                    >
+                      <option value="pending">Pendiente</option>
+                      <option value="progress">En Proceso</option>
+                      <option value="review">En Revisión</option>
+                      <option value="done">Enviado</option>
+                    </select>
+                  </div>
+                )}
               </div>
 
               <div style={{display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem'}}>
@@ -523,17 +525,15 @@ export default function App() {
                     ))}
                   </div>
                   <form className="chat-input" onSubmit={handleSendMessage}>
-                    {role !== 'Cliente' && (
-                      <button 
-                        type="button" 
-                        className="btn-secondary" 
-                        title="Subir documento como respuesta" 
-                        onClick={() => alert("Función de subida de archivos en desarrollo...")} 
-                        style={{padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.25rem'}}
-                      >
-                        📎 Adjuntar
-                      </button>
-                    )}
+                    <button 
+                      type="button" 
+                      className="btn-secondary" 
+                      title="Subir documento" 
+                      onClick={() => alert("Función de subida de archivos en desarrollo...")} 
+                      style={{padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.25rem'}}
+                    >
+                      📎 Adjuntar
+                    </button>
                     <input 
                       type="text" 
                       placeholder="Escribe un mensaje..." 
@@ -572,19 +572,21 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div style={{background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid var(--border-color)'}}>
-                    <h3 style={{marginTop: 0}}>Historial (Auditoría)</h3>
-                    <div className="history-log">
-                      {selectedTicket.history.map((hist, i) => (
-                        <div key={i} className="history-item">
-                          <div className="history-time">{hist.time}</div>
-                          <div className="history-content">
-                            <strong>{hist.user}</strong>: {hist.action}
+                  {role !== 'Cliente' && (
+                    <div style={{background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid var(--border-color)'}}>
+                      <h3 style={{marginTop: 0}}>Historial (Auditoría)</h3>
+                      <div className="history-log">
+                        {selectedTicket.history.map((hist, i) => (
+                          <div key={i} className="history-item">
+                            <div className="history-time">{hist.time}</div>
+                            <div className="history-content">
+                              <strong>{hist.user}</strong>: {hist.action}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </>
