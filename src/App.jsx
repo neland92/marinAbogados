@@ -444,7 +444,7 @@ export default function App() {
                   <thead>
                     <tr>
                       <th>ID Ticket</th>
-                      <th>Asignado A</th>
+                      {role !== 'Cliente' && <th>Asignado A</th>}
                       <th>Asunto / Requerimiento</th>
                       <th>Fecha</th>
                       <th>Estado</th>
@@ -456,7 +456,7 @@ export default function App() {
                       return (
                         <tr key={ticket.id} onClick={() => handleOpenTicket(ticket, selectedCompany)}>
                           <td style={{color: 'var(--text-muted)', fontSize: '0.875rem'}}>{ticket.id}</td>
-                          <td style={{fontWeight: '500', color: 'var(--text-muted)'}}>{ticket.assignedTo}</td>
+                          {role !== 'Cliente' && <td style={{fontWeight: '500', color: 'var(--text-muted)'}}>{ticket.assignedTo}</td>}
                           <td style={{fontWeight: '500', color: 'var(--primary-color)'}}>{ticket.title}</td>
                           <td style={{color: 'var(--text-muted)', fontSize: '0.875rem'}}>{ticket.date}</td>
                           <td>
@@ -548,11 +548,9 @@ export default function App() {
                   <div style={{background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid var(--border-color)'}}>
                     <h3 style={{marginTop: 0}}>Información</h3>
                     <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', margin: '0.25rem 0'}}><strong>Estado actual:</strong> <span className={`count-badge ${getStatusInfo(selectedTicket.status).cls}`} style={{display: 'inline-flex', marginLeft: '0.5rem'}}>{getStatusInfo(selectedTicket.status).text}</span></p>
-                    <div style={{fontSize: '0.875rem', color: 'var(--text-muted)', margin: '0.75rem 0 0 0', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                      <strong>👤 Asignado a:</strong>
-                      {role === 'Cliente' ? (
-                        <span>{selectedTicket.assignedTo}</span>
-                      ) : (
+                    {role !== 'Cliente' && (
+                      <div style={{fontSize: '0.875rem', color: 'var(--text-muted)', margin: '0.75rem 0 0 0', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                        <strong>👤 Asignado a:</strong>
                         <select 
                           value={selectedTicket.assignedTo}
                           onChange={(e) => handleChangeAssignment(e.target.value)}
@@ -563,8 +561,8 @@ export default function App() {
                             <option key={r} value={r}>{r}</option>
                           ))}
                         </select>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
 
                   <div style={{background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid var(--border-color)'}}>
