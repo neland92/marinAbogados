@@ -12,6 +12,7 @@ const MOCK_COMPANIES = [
         title: 'Despido con justa causa - Empleado Juan Pérez',
         status: 'pending',
         date: '2026-05-05',
+        assignedTo: 'Sin asignar',
         history: [{ user: 'Cliente', time: '05-May 10:00 AM', action: 'Ticket creado' }],
         messages: [
           { sender: 'Cliente', text: 'Hola, necesito hacer un despido para mañana. Adjunto soportes.', type: 'received' }
@@ -22,6 +23,7 @@ const MOCK_COMPANIES = [
         title: 'Revisión de Contrato a Término Fijo',
         status: 'progress',
         date: '2026-05-06',
+        assignedTo: 'Abogada Asignada',
         history: [
           { user: 'Cliente', time: '06-May 08:00 AM', action: 'Ticket creado' },
           { user: 'Abogada Asignada', time: '06-May 09:00 AM', action: 'Estado cambiado a En Progreso' }
@@ -33,6 +35,7 @@ const MOCK_COMPANIES = [
         title: 'Elaboración de poder especial',
         status: 'done',
         date: '2026-05-01',
+        assignedTo: 'Abogada Asignada',
         history: [
           { user: 'Cliente', time: '01-May 10:00 AM', action: 'Ticket creado' },
           { user: 'Abogada Asignada', time: '02-May 03:00 PM', action: 'Cambió a Enviado' }
@@ -44,6 +47,7 @@ const MOCK_COMPANIES = [
         title: 'Concepto jurídico sobre horas extras',
         status: 'done',
         date: '2026-04-25',
+        assignedTo: 'Abogado Jefe',
         history: [
           { user: 'Cliente', time: '25-Apr 09:00 AM', action: 'Ticket creado' },
           { user: 'Abogado Jefe', time: '28-Apr 11:00 AM', action: 'Cambió a Enviado' }
@@ -61,6 +65,7 @@ const MOCK_COMPANIES = [
         title: 'Actualización de Reglamento Interno',
         status: 'progress',
         date: '2026-05-04',
+        assignedTo: 'Abogada Líder',
         history: [
           { user: 'Cliente', time: '04-May 09:00 AM', action: 'Ticket creado' },
           { user: 'Abogada Líder', time: '04-May 11:30 AM', action: 'Estado cambiado a En Progreso' }
@@ -81,6 +86,7 @@ const MOCK_COMPANIES = [
         title: 'Respuesta a Derecho de Petición',
         status: 'review',
         date: '2026-05-02',
+        assignedTo: 'Abogada Asignada',
         history: [
           { user: 'Cliente', time: '02-May 08:00 AM', action: 'Ticket creado' },
           { user: 'Abogada Asignada', time: '03-May 04:00 PM', action: 'Estado cambiado a Para Revisión' }
@@ -94,6 +100,7 @@ const MOCK_COMPANIES = [
         title: 'Contrato de Arrendamiento Local 5',
         status: 'done',
         date: '2026-04-28',
+        assignedTo: 'Abogado Jefe',
         history: [
           { user: 'Cliente', time: '28-Apr 10:00 AM', action: 'Ticket creado' },
           { user: 'Abogado Jefe', time: '30-Apr 02:00 PM', action: 'Aprobado y Finalizado' }
@@ -105,6 +112,7 @@ const MOCK_COMPANIES = [
         title: 'Asesoría en compra de lote',
         status: 'pending',
         date: '2026-05-06',
+        assignedTo: 'Sin asignar',
         history: [
           { user: 'Cliente', time: '06-May 10:00 AM', action: 'Ticket creado' }
         ],
@@ -197,6 +205,35 @@ export default function App() {
               return {
                 ...t,
                 status: newStatus,
+                history: [...t.history, { user: role, time: timeString, action: actionText }]
+              };
+            }
+            return t;
+          })
+        };
+      }
+      return c;
+    });
+
+    setCompanies(updatedCompanies);
+    const updatedCompany = updatedCompanies.find(c => c.id === selectedCompany.id);
+    setSelectedCompany(updatedCompany);
+    setSelectedTicket(updatedCompany.tickets.find(t => t.id === selectedTicket.id));
+  };
+
+  const handleChangeAssignment = (newAssignee) => {
+    const actionText = `Se asignó a: ${newAssignee}`;
+    const updatedCompanies = companies.map(c => {
+      if (c.id === selectedCompany.id) {
+        return {
+          ...c,
+          tickets: c.tickets.map(t => {
+            if (t.id === selectedTicket.id) {
+              const now = new Date();
+              const timeString = `${now.getDate()}-May ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+              return {
+                ...t,
+                assignedTo: newAssignee,
                 history: [...t.history, { user: role, time: timeString, action: actionText }]
               };
             }
@@ -407,6 +444,7 @@ export default function App() {
                   <thead>
                     <tr>
                       <th>ID Ticket</th>
+                      <th>Asignado A</th>
                       <th>Asunto / Requerimiento</th>
                       <th>Fecha</th>
                       <th>Estado</th>
@@ -418,6 +456,7 @@ export default function App() {
                       return (
                         <tr key={ticket.id} onClick={() => handleOpenTicket(ticket, selectedCompany)}>
                           <td style={{color: 'var(--text-muted)', fontSize: '0.875rem'}}>{ticket.id}</td>
+                          <td style={{fontWeight: '500', color: 'var(--text-muted)'}}>{ticket.assignedTo}</td>
                           <td style={{fontWeight: '500', color: 'var(--primary-color)'}}>{ticket.title}</td>
                           <td style={{color: 'var(--text-muted)', fontSize: '0.875rem'}}>{ticket.date}</td>
                           <td>
@@ -509,6 +548,23 @@ export default function App() {
                   <div style={{background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid var(--border-color)'}}>
                     <h3 style={{marginTop: 0}}>Información</h3>
                     <p style={{fontSize: '0.875rem', color: 'var(--text-muted)', margin: '0.25rem 0'}}><strong>Estado actual:</strong> <span className={`count-badge ${getStatusInfo(selectedTicket.status).cls}`} style={{display: 'inline-flex', marginLeft: '0.5rem'}}>{getStatusInfo(selectedTicket.status).text}</span></p>
+                    <div style={{fontSize: '0.875rem', color: 'var(--text-muted)', margin: '0.75rem 0 0 0', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                      <strong>👤 Asignado a:</strong>
+                      {role === 'Cliente' ? (
+                        <span>{selectedTicket.assignedTo}</span>
+                      ) : (
+                        <select 
+                          value={selectedTicket.assignedTo}
+                          onChange={(e) => handleChangeAssignment(e.target.value)}
+                          style={{padding: '0.25rem', borderRadius: '0.25rem', border: '1px solid var(--border-color)', fontSize: '0.875rem'}}
+                        >
+                          <option value="Sin asignar">Sin asignar</option>
+                          {ROLES.filter(r => r !== 'Cliente').map(r => (
+                            <option key={r} value={r}>{r}</option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   </div>
 
                   <div style={{background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '1rem', border: '1px solid var(--border-color)'}}>
